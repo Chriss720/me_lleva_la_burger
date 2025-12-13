@@ -1,0 +1,292 @@
+@host = http://localhost:3000
+
+### Get all customers
+GET {{host}}/customer
+Accept: application/json
+
+### Get customer by id
+GET {{host}}/customer/2
+Accept: application/json
+
+### Update customer by id
+PATCH {{host}}/customer/2
+Content-Type: application/json
+
+{
+    "telefono_cliente": "4387654321"
+}
+
+### Delete customer by id
+DELETE {{host}}/customer/1
+Accept: application/json
+
+### Get all employees
+GET {{host}}/employee
+Accept: application/json
+
+### Get employee by id
+GET {{host}}/employee/1
+Accept: application/json
+
+### Update employee by id
+PATCH {{host}}/employee/1
+Content-Type: application/json
+{
+    "telefono_empleado": "0000000000"
+}
+
+### Delete employee by id
+DELETE {{host}}/employee/1
+Accept: application/json
+
+### Product endpoints
+
+### Create a new product
+POST {{host}}/products
+Content-Type: application/json
+
+{
+    "nombre_producto": "Hamburguesa Clásica",
+    "descripcion": "Carne 100% res, pan artesanal, lechuga, tomate",
+    "ingredientes": "Carne, pan, lechuga, tomate, aderezo",
+    "precio": 7.50,
+    "foto": "https://example.com/img/hamburguesa.jpg",
+    "disponibilidad": "disponible"
+}
+
+### Get all products
+GET {{host}}/products
+Accept: application/json
+
+### Get available products
+GET {{host}}/products/available
+Accept: application/json
+
+### Get product by id
+GET {{host}}/products/1
+Accept: application/json
+
+### Update product by id
+PATCH {{host}}/products/1
+Content-Type: application/json
+
+{
+    "precio": 8.00,
+    "disponibilidad": "no disponible"
+}
+
+### Delete product by id
+DELETE {{host}}/products/1
+Accept: application/json
+
+### Cart endpoints
+
+### Create a new cart
+POST {{host}}/carts
+Content-Type: application/json
+
+{
+    "id_cliente": 1,
+    "estado": "Activo"
+}
+
+### Get all carts
+GET {{host}}/carts
+Accept: application/json
+
+### Get cart by id
+GET {{host}}/carts/1
+Accept: application/json
+
+### Update cart by id
+PATCH {{host}}/carts/1
+Content-Type: application/json
+
+{
+    "estado": "Inactivo"
+}
+
+### Delete cart by id
+DELETE {{host}}/carts/1
+Accept: application/json
+
+### Add product to cart
+POST {{host}}/carts/1/add
+Content-Type: application/json
+
+{
+    "id_producto": 1,
+    "cantidad": 2
+}
+
+### Remove product from cart
+POST {{host}}/carts/1/remove
+Content-Type: application/json
+
+{
+    "id_producto": 1
+}
+
+### Clear cart
+POST {{host}}/carts/1/clear
+Accept: application/json
+
+### Get carts by customer id
+GET {{host}}/carts/customer/1
+Accept: application/json
+
+### Order endpoints
+
+### Create a new order
+POST {{host}}/orders
+Content-Type: application/json
+
+{
+    "id_cliente": 1,
+    "id_empleado": 1,
+    "total": 15.00,
+    "estado": "Pendiente"
+}
+
+### Get all orders
+GET {{host}}/orders
+Accept: application/json
+
+### Get order by id
+GET {{host}}/orders/1
+Accept: application/json
+
+### Update order by id
+PATCH {{host}}/orders/1
+Content-Type: application/json
+
+{
+    "estado": "En preparación"
+}
+
+### Delete order by id
+DELETE {{host}}/orders/1
+Accept: application/json
+
+### Create order from cart
+POST {{host}}/orders/from-cart/1?employeeId=1
+Accept: application/json
+
+### Get orders by customer id
+GET {{host}}/orders/customer/1
+Accept: application/json
+
+### Get orders by employee id
+GET {{host}}/orders/employee/1
+Accept: application/json
+
+### Patch order status
+PATCH {{host}}/orders/1/status
+Content-Type: application/json
+
+{
+    "estado": "Entregado"
+}
+
+### Payment endpoints
+
+### Create a new payment
+POST {{host}}/payment
+Content-Type: application/json
+
+{
+    "id_pedido": 1,
+    "metodo": "tarjeta",
+    "monto": 15,
+    "estado": "Pendiente"
+}
+
+### Get all payments
+GET {{host}}/payment
+Accept: application/json
+
+### Get payment by id
+GET {{host}}/payment/1
+Accept: application/json
+
+### Update payment by id
+PATCH {{host}}/payment/1
+Content-Type: application/json
+
+{
+    "estado": "Completado"
+}
+
+### Delete payment by id
+DELETE {{host}}/payment/1
+Accept: application/json
+
+### Process payment (simulated)
+POST {{host}}/payment/process
+Content-Type: application/json
+
+{
+    "id_pedido": 1,
+    "metodo": "tarjeta",
+    "monto": 15.00,
+    "estado": "Procesando"
+}
+
+### Get payments by order id
+GET {{host}}/payment/order/1
+Accept: application/json
+
+
+###
+# @name registerCustomer
+# @description Registrar un nuevo cliente
+POST http://localhost:3000/customer
+Content-Type: application/json
+
+{
+    "nombre_cliente": "Juan",
+    "apellido_cliente": "Pérez",
+    "correo_cliente": "juan@ejemplo.com",
+    "contrasena_cliente": "password123",
+    "telefono_cliente": "5551234567",
+    "direccion": "Calle Principal 123",
+    "estado_cliente": "activo"
+}
+
+###
+# @name loginCustomer
+# @description Inicia sesión como cliente
+POST http://localhost:3000/auth/login/customer
+Content-Type: application/json
+
+{
+    "correo_cliente": "juan@ejemplo.com",
+    "contrasena_cliente": "password123"
+}
+
+###
+# @name registerEmployee
+# @description Registrar un nuevo empleado
+POST http://localhost:3000/employee
+Content-Type: application/json
+
+{
+    "nombre_empleado": "Carlos",
+    "apellido_empleado": "López",
+    "correo_empleado": "carlos@ejemplo.com",
+    "contrasena_empleado": "password123",
+    "telefono_empleado": "5559876543",
+    "cargo": "Cajero",
+    "estado_empleado": "activo"
+}
+
+###
+# @name loginEmployee
+# @description Inicia sesión como empleado
+POST http://localhost:3000/auth/login/employee
+Content-Type: application/json
+
+{
+    "correo_empleado": "carlos@ejemplo.com",
+    "contrasena_empleado": "password123"
+}

@@ -1,0 +1,50 @@
+services:
+  backend:
+    build:
+      context: ./me_lleva_la_burger_backend
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      - SUPABASE_URL=https://dwpubrmznxfnyfkwldeu.supabase.co
+      - SUPABASE_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImR3cHVicm16bnhmbnlma3dsZGV1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjM5MjI3NDUsImV4cCI6MjA3OTQ5ODc0NX0.vnWAXNqz3L38Z84xEEUPP8IyVi5wh7Mc8MynpFHekI4
+      - DB_HOST=postgres
+      - DB_PORT=5432
+      - DB_USER=burger_user
+      - DB_PASSWORD=burger_pass
+      - DB_NAME=burger_db
+    depends_on:
+      - postgres
+    networks:
+      - app-network
+
+  frontend:
+    build:
+      context: ./me_lleva_la_burger_front
+      dockerfile: Dockerfile
+    ports:
+      - "8080:80"
+    depends_on:
+      - backend
+    networks:
+      - app-network
+
+  postgres:
+    image: postgres:16
+    container_name: burger_postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: burger_db
+      POSTGRES_USER: burger_user
+      POSTGRES_PASSWORD: burger_pass
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  postgres_data:

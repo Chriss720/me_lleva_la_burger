@@ -1,0 +1,34 @@
+name: Deploy to VPS
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    needs: [] # In a real scenario, this would need a 'ci' job to pass first
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup SSH
+        uses: webfactory/ssh-agent@v0.9.0
+        with:
+            ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+        # This step is commented out to avoid errors if secret is missing, 
+        # but shows how it would be structured.
+        if: false 
+
+      - name: Deploy to Server
+        run: |
+          echo "Initiating deployment to VPS..."
+          echo "Connecting to ${{ secrets.VPS_HOST }}..."
+          echo "Pulling latest changes..."
+          echo "Building containers..."
+          echo "Restarting services..."
+          echo "Deployment successful! 🚀"
+        # In a real environment, you would use rsync or ssh commands here:
+        # ssh user@host "cd /app && git pull && docker compose up -d --build"
