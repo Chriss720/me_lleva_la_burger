@@ -6,6 +6,7 @@ import { useProducts } from '../hooks/useProducts';
 import { useOrders } from '../hooks/useOrders';
 import { Layout } from '../components/layout/Layout';
 import { ProductCard } from '../components/common/ProductCard';
+import { HeroCarousel } from '../components/common/HeroCarousel';
 import type { Product } from '../types';
 
 export const Home = () => {
@@ -65,22 +66,22 @@ export const Home = () => {
   return (
     <Layout>
       {/* Hero Section */}
-      <section className="py-24 px-8 md:px-12 bg-black text-white">
-        <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center gap-16 w-full">
-          <div className="flex-1 text-center md:text-left">
-            <h1 className="text-5xl md:text-7xl uppercase text-[#FFC72C] leading-none mb-6 font-oswald font-bold tracking-tighter">
+      {/* Hero Section */}
+      <section className="py-12 md:py-20 px-4 bg-black text-white relative overflow-hidden">
+        <div className="absolute top-0 left-0 w-full h-[500px] bg-gradient-to-b from-[#FFC72C]/10 to-transparent rounded-full blur-3xl opacity-20 transform -translate-y-1/2"></div>
+
+        <div className="max-w-7xl mx-auto flex flex-col items-center w-full z-10 relative">
+          <div className="text-center mb-12 max-w-4xl">
+            <h1 className="text-5xl md:text-8xl uppercase text-[#FFC72C] leading-none mb-6 font-oswald font-bold tracking-tighter drop-shadow-xl">
               ¿Listo para tu próxima Burger?
             </h1>
-            <p className="text-xl text-gray-300 max-w-xl mx-auto md:mx-0 mb-10 leading-relaxed">
+            <p className="text-xl md:text-2xl text-gray-300 max-w-2xl mx-auto leading-relaxed">
               Hechas a la parrilla, con ingredientes frescos y un sabor que te transporta a otro nivel.
             </p>
           </div>
-          <div className="flex-1 flex justify-center items-center">
-            <img
-              src="/static/images/tiburon.png"
-              alt="Hamburguesa Tiburón"
-              className="max-w-full h-auto rounded-2xl shadow-[0_0_50px_20px_rgba(255,199,44,0.15)] transform hover:scale-105 transition-transform duration-500"
-            />
+
+          <div className="w-full flex justify-center items-center">
+            <HeroCarousel />
           </div>
         </div>
       </section>
