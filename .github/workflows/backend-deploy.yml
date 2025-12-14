@@ -1,9 +1,11 @@
-name: Deploy to VPS
+name: Deploy Backend to VPS
 
 on:
   push:
     branches:
       - main
+    paths:
+      - 'me_lleva_la_burger_backend/**'
   workflow_dispatch:
 
 jobs:
