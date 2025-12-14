@@ -7,6 +7,7 @@ import { useOrders } from '../hooks/useOrders';
 import { Layout } from '../components/layout/Layout';
 import { ProductCard } from '../components/common/ProductCard';
 import { HeroCarousel } from '../components/common/HeroCarousel';
+import { EmberParticles } from '../components/common/EmberParticles';
 import type { Product } from '../types';
 
 export const Home = () => {
@@ -68,7 +69,8 @@ export const Home = () => {
       {/* Hero Section */}
       {/* Hero Section */}
       <section className="py-12 md:py-20 px-4 bg-black text-white relative overflow-hidden">
-        <div className="absolute top-0 left-0 w-full h-[500px] bg-gradient-to-b from-[#FFC72C]/10 to-transparent rounded-full blur-3xl opacity-20 transform -translate-y-1/2"></div>
+        <EmberParticles />
+        <div className="absolute top-0 left-0 w-full h-[500px] bg-gradient-to-b from-[#FFC72C]/10 to-transparent rounded-full blur-3xl opacity-20 transform -translate-y-1/2 pointer-events-none"></div>
 
         <div className="max-w-7xl mx-auto flex flex-col items-center w-full z-10 relative">
           <div className="text-center mb-12 max-w-4xl">
@@ -87,7 +89,7 @@ export const Home = () => {
       </section>
 
       {/* Productos */}
-      <section className="py-20 px-8 md:px-12 bg-[#111]">
+      <section className="py-20 px-8 md:px-12 bg-[#111] bg-center bg-cover bg-no-repeat" style={{ backgroundImage: "linear-gradient(rgba(0,0,0,0.9), rgba(0,0,0,0.9)), url('/images/bg-texture.jpg')" }}>
         <div className="max-w-7xl mx-auto w-full">
           <div className="flex flex-col md:flex-row justify-between items-end mb-12 border-b border-gray-800 pb-6">
             <h2 className="text-4xl md:text-5xl uppercase text-[#FFC72C] font-bold text-center md:text-left">Nuestro Menú</h2>
@@ -277,8 +279,9 @@ export const Home = () => {
 
       {/* Sección Sobre Nosotros */}
       {/* Sección Sobre Nosotros */}
-      <section className="py-24 px-8 bg-[#111] relative overflow-hidden">
-        <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-[#FFC72C] to-transparent opacity-50"></div>
+      {/* Sección Sobre Nosotros */}
+      <section className="py-24 px-8 relative overflow-hidden bg-fixed bg-center bg-cover" style={{ backgroundImage: "url('/images/bg-ingredients.png')" }}>
+        <div className="absolute inset-0 bg-black/80"></div>
         <div className="max-w-4xl mx-auto text-center relative z-10">
           <h2 className="text-4xl md:text-5xl uppercase text-[#FFC72C] mb-8 font-bold">Nuestra Historia</h2>
           <p className="text-xl text-gray-300 leading-loose font-light">
@@ -291,7 +294,7 @@ export const Home = () => {
 
       {/* Testimonios */}
       {/* Testimonios */}
-      <section className="py-24 px-8 md:px-12 bg-black">
+      <section className="py-24 px-8 md:px-12 bg-black bg-center bg-cover bg-no-repeat" style={{ backgroundImage: "linear-gradient(rgba(0,0,0,0.9), rgba(0,0,0,0.9)), url('/images/bg-texture.jpg')" }}>
         <div className="max-w-7xl mx-auto">
           <h2 className="text-4xl md:text-5xl uppercase text-[#FFC72C] mb-24 font-bold text-center">Lo que Dicen Nuestros Clientes</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12 mt-8">
