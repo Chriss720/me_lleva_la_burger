@@ -100,59 +100,67 @@ const CheckoutPage: React.FC = () => {
     }
 
     return (
-        <div className="min-h-screen bg-black text-white font-sans">
+        <div className="min-h-screen bg-black text-white font-sans bg-cover bg-center bg-no-repeat bg-fixed" style={{ backgroundImage: "linear-gradient(rgba(0,0,0,0.9), rgba(0,0,0,0.9)), url('/images/bg-texture.jpg')" }}>
             <Header />
 
-            <div className="container mx-auto px-4 py-8 max-w-4xl">
-                <div className="flex items-center mb-8">
-                    <button onClick={() => navigate('/')} className="text-[#FFC72C] mr-4 hover:text-yellow-400">
-                        <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <div className="container mx-auto px-4 py-12 max-w-6xl">
+                <div className="flex items-center mb-10 gap-4">
+                    <button onClick={() => navigate('/')} className="bg-white/5 p-3 rounded-full text-[#FFC72C] hover:bg-[#FFC72C] hover:text-black transition-all">
+                        <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
                         </svg>
                     </button>
-                    <h1 className="text-3xl font-bold text-white">Resumen de Pedido</h1>
+                    <h1 className="text-4xl font-bold text-white font-oswald uppercase tracking-wide">Resumen <span className="text-[#FFC72C]">de Pedido</span></h1>
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                     {/* Order Items */}
-                    <div className="md:col-span-2 space-y-4">
-                        <div className="bg-[#1a1a1a] rounded-lg p-6 border border-[#333]">
-                            <h2 className="text-xl font-bold text-[#FFC72C] mb-4 flex items-center gap-2">
-                                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
-                                </svg>
+                    <div className="md:col-span-2 space-y-6">
+                        <div className="glass-card rounded-3xl p-8 border border-white/10 shadow-xl backdrop-blur-md">
+                            <h2 className="text-2xl font-bold text-[#FFC72C] mb-8 flex items-center gap-3 font-oswald uppercase border-b border-white/10 pb-4">
+                                <span className="bg-[#FFC72C]/10 p-2 rounded-lg">
+                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+                                    </svg>
+                                </span>
                                 Tus Productos
                             </h2>
 
                             <div className="space-y-4">
                                 {items.map((item) => (
-                                    <div key={item.id} className="flex items-center justify-between bg-[#222] p-4 rounded-lg border border-[#333]">
-                                        <div className="flex items-center gap-4">
-                                            {item.producto?.foto && (
-                                                <img
-                                                    src={item.producto.foto}
-                                                    alt={item.producto.nombre_producto}
-                                                    className="w-16 h-16 object-cover rounded-md"
-                                                />
-                                            )}
+                                    <div key={item.id} className="flex flex-col sm:flex-row items-center justify-between bg-white/5 p-4 rounded-2xl border border-white/5 hover:bg-white/10 transition-colors group">
+                                        <div className="flex items-center gap-6 w-full sm:w-auto">
+                                            <div className="w-20 h-20 bg-black/50 rounded-xl overflow-hidden shadow-lg border border-white/10">
+                                                {item.producto?.foto || item.producto?.imagen ? (
+                                                    <img
+                                                        src={item.producto?.foto || item.producto?.imagen}
+                                                        alt={item.producto?.nombre_producto}
+                                                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                                                    />
+                                                ) : (
+                                                    <div className="w-full h-full flex items-center justify-center bg-[#FFC72C]">
+                                                        <span className="text-black font-bold text-xs uppercase">Burger</span>
+                                                    </div>
+                                                )}
+                                            </div>
                                             <div>
-                                                <h3 className="font-bold text-white">{item.producto?.nombre_producto}</h3>
-                                                <p className="text-[#FFC72C] font-bold">${Number(item.precio_unitario).toFixed(2)}</p>
+                                                <h3 className="font-bold text-xl text-white font-oswald uppercase tracking-wide">{item.producto?.nombre_producto}</h3>
+                                                <p className="text-[#FFC72C] font-bold text-lg">${Number(item.precio_unitario).toFixed(2)}</p>
                                             </div>
                                         </div>
 
-                                        <div className="flex items-center gap-3 bg-[#111] rounded-full px-3 py-1">
+                                        <div className="flex items-center gap-4 bg-black/40 rounded-full px-4 py-2 mt-4 sm:mt-0 border border-white/5">
                                             <button
                                                 onClick={() => handleQuantityChange(item.producto, -1)}
-                                                className="text-gray-400 hover:text-white font-bold text-lg w-6 h-6 flex items-center justify-center"
+                                                className="text-gray-400 hover:text-white font-bold text-xl w-8 h-8 flex items-center justify-center hover:bg-white/10 rounded-full transition-colors"
                                                 disabled={isLoading}
                                             >
                                                 -
                                             </button>
-                                            <span className="font-bold w-4 text-center">{item.cantidad}</span>
+                                            <span className="font-bold w-6 text-center text-lg">{item.cantidad}</span>
                                             <button
                                                 onClick={() => handleQuantityChange(item.producto, 1)}
-                                                className="text-[#FFC72C] hover:text-yellow-300 font-bold text-lg w-6 h-6 flex items-center justify-center"
+                                                className="text-[#FFC72C] hover:text-white font-bold text-xl w-8 h-8 flex items-center justify-center hover:bg-[#FFC72C] hover:text-black rounded-full transition-colors"
                                                 disabled={isLoading}
                                             >
                                                 +
@@ -164,47 +172,51 @@ const CheckoutPage: React.FC = () => {
                         </div>
 
                         {/* Payment Method Selection */}
-                        <div className="bg-[#1a1a1a] rounded-lg p-6 border border-[#333]">
-                            <h2 className="text-xl font-bold text-[#FFC72C] mb-4 flex items-center gap-2">
-                                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
-                                </svg>
+                        <div className="glass-card rounded-3xl p-8 border border-white/10 shadow-xl backdrop-blur-md">
+                            <h2 className="text-2xl font-bold text-[#FFC72C] mb-8 flex items-center gap-3 font-oswald uppercase border-b border-white/10 pb-4">
+                                <span className="bg-[#FFC72C]/10 p-2 rounded-lg">
+                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
+                                    </svg>
+                                </span>
                                 Método de Pago
                             </h2>
 
-                            <div className="space-y-3">
-                                <label className={`flex items-center justify-between p-4 rounded-lg border cursor-pointer transition-all ${paymentMethod === 'Tarjeta' ? 'bg-[#2a2a2a] border-[#FFC72C]' : 'bg-[#222] border-[#333] hover:bg-[#2a2a2a]'}`}>
-                                    <div className="flex items-center gap-3">
-                                        <input
-                                            type="radio"
-                                            name="payment"
-                                            value="Tarjeta"
-                                            checked={paymentMethod === 'Tarjeta'}
-                                            onChange={() => setPaymentMethod('Tarjeta')}
-                                            className="text-[#FFC72C] focus:ring-[#FFC72C]"
-                                        />
-                                        <span className="font-bold">Tarjeta de Crédito/Débito</span>
+                            <div className="grid sm:grid-cols-2 gap-4">
+                                <label className={`flex flex-col items-center justify-center p-6 rounded-2xl border-2 cursor-pointer transition-all duration-300 relative overflow-hidden group ${paymentMethod === 'Tarjeta' ? 'bg-[#FFC72C]/10 border-[#FFC72C]' : 'bg-white/5 border-white/5 hover:bg-white/10'}`}>
+                                    <div className={`absolute top-2 right-2 w-4 h-4 rounded-full border border-white flex items-center justify-center ${paymentMethod === 'Tarjeta' ? 'bg-[#FFC72C] border-[#FFC72C]' : 'bg-transparent'}`}>
+                                        {paymentMethod === 'Tarjeta' && <div className="w-2 h-2 bg-black rounded-full"></div>}
                                     </div>
-                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
+                                    <input
+                                        type="radio"
+                                        name="payment"
+                                        value="Tarjeta"
+                                        checked={paymentMethod === 'Tarjeta'}
+                                        onChange={() => setPaymentMethod('Tarjeta')}
+                                        className="hidden"
+                                    />
+                                    <svg xmlns="http://www.w3.org/2000/svg" className={`h-12 w-12 mb-3 transition-colors ${paymentMethod === 'Tarjeta' ? 'text-[#FFC72C]' : 'text-gray-400 group-hover:text-white'}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
                                     </svg>
+                                    <span className={`font-bold text-lg font-oswald uppercase tracking-wide transition-colors ${paymentMethod === 'Tarjeta' ? 'text-white' : 'text-gray-400 group-hover:text-white'}`}>Tarjeta</span>
                                 </label>
 
-                                <label className={`flex items-center justify-between p-4 rounded-lg border cursor-pointer transition-all ${paymentMethod === 'Efectivo' ? 'bg-[#2a2a2a] border-[#FFC72C]' : 'bg-[#222] border-[#333] hover:bg-[#2a2a2a]'}`}>
-                                    <div className="flex items-center gap-3">
-                                        <input
-                                            type="radio"
-                                            name="payment"
-                                            value="Efectivo"
-                                            checked={paymentMethod === 'Efectivo'}
-                                            onChange={() => setPaymentMethod('Efectivo')}
-                                            className="text-[#FFC72C] focus:ring-[#FFC72C]"
-                                        />
-                                        <span className="font-bold">Efectivo</span>
+                                <label className={`flex flex-col items-center justify-center p-6 rounded-2xl border-2 cursor-pointer transition-all duration-300 relative overflow-hidden group ${paymentMethod === 'Efectivo' ? 'bg-[#FFC72C]/10 border-[#FFC72C]' : 'bg-white/5 border-white/5 hover:bg-white/10'}`}>
+                                    <div className={`absolute top-2 right-2 w-4 h-4 rounded-full border border-white flex items-center justify-center ${paymentMethod === 'Efectivo' ? 'bg-[#FFC72C] border-[#FFC72C]' : 'bg-transparent'}`}>
+                                        {paymentMethod === 'Efectivo' && <div className="w-2 h-2 bg-black rounded-full"></div>}
                                     </div>
-                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z" />
+                                    <input
+                                        type="radio"
+                                        name="payment"
+                                        value="Efectivo"
+                                        checked={paymentMethod === 'Efectivo'}
+                                        onChange={() => setPaymentMethod('Efectivo')}
+                                        className="hidden"
+                                    />
+                                    <svg xmlns="http://www.w3.org/2000/svg" className={`h-12 w-12 mb-3 transition-colors ${paymentMethod === 'Efectivo' ? 'text-[#FFC72C]' : 'text-gray-400 group-hover:text-white'}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z" />
                                     </svg>
+                                    <span className={`font-bold text-lg font-oswald uppercase tracking-wide transition-colors ${paymentMethod === 'Efectivo' ? 'text-white' : 'text-gray-400 group-hover:text-white'}`}>Efectivo</span>
                                 </label>
                             </div>
                         </div>
@@ -212,28 +224,31 @@ const CheckoutPage: React.FC = () => {
 
                     {/* Order Summary */}
                     <div className="md:col-span-1">
-                        <div className="bg-[#1a1a1a] rounded-lg p-6 border border-[#333] sticky top-24">
-                            <h2 className="text-xl font-bold text-[#FFC72C] mb-6">Resumen de Pago</h2>
+                        <div className="glass-card rounded-3xl p-8 border border-white/10 shadow-2xl backdrop-blur-md sticky top-28">
+                            <h2 className="text-2xl font-bold text-[#FFC72C] mb-8 font-oswald uppercase tracking-wide text-center">Resumen de Pago</h2>
 
-                            <div className="space-y-3 mb-6 text-gray-300">
-                                <div className="flex justify-between">
-                                    <span>Subtotal</span>
-                                    <span>${getTotal().toFixed(2)}</span>
+                            <div className="space-y-4 mb-8 text-gray-300">
+                                <div className="flex justify-between items-center bg-white/5 p-3 rounded-xl border border-white/5">
+                                    <span className="text-sm uppercase tracking-wider font-bold text-gray-400">Subtotal</span>
+                                    <span className="font-bold text-white text-lg">${getTotal().toFixed(2)}</span>
                                 </div>
-                                <div className="flex justify-between">
-                                    <span>Envío</span>
-                                    <span className="text-[#FFC72C]">Gratis</span>
+                                <div className="flex justify-between items-center bg-white/5 p-3 rounded-xl border border-white/5">
+                                    <span className="text-sm uppercase tracking-wider font-bold text-gray-400">Envío</span>
+                                    <span className="text-[#00FF00] font-bold text-sm bg-[#00FF00]/10 px-2 py-1 rounded-md uppercase tracking-wider">Gratis</span>
                                 </div>
-                                <div className="border-t border-gray-700 my-2 pt-2 flex justify-between text-white font-bold text-xl">
-                                    <span>Total</span>
-                                    <span>${getTotal().toFixed(2)}</span>
+
+                                <div className="my-6 border-t-2 border-dashed border-white/10"></div>
+
+                                <div className="flex justify-between items-center">
+                                    <span className="text-white font-bold text-xl uppercase font-oswald">Total</span>
+                                    <span className="text-[#FFC72C] font-extrabold text-4xl font-oswald drop-shadow-lg">${getTotal().toFixed(2)}</span>
                                 </div>
                             </div>
 
                             <button
                                 onClick={handleCheckout}
                                 disabled={isProcessing || items.length === 0}
-                                className="w-full bg-[#DA291C] text-white py-4 rounded-lg font-bold text-lg hover:bg-[#b91c1c] transition disabled:opacity-50 disabled:cursor-not-allowed flex justify-center items-center gap-2"
+                                className="glow-button w-full bg-[#DA291C] text-white py-5 rounded-full font-bold text-xl hover:bg-[#b91c1c] transition-all disabled:opacity-50 disabled:cursor-not-allowed flex justify-center items-center gap-3 uppercase tracking-widest group shadow-lg shadow-red-900/40"
                             >
                                 {isProcessing ? (
                                     <>
@@ -244,9 +259,15 @@ const CheckoutPage: React.FC = () => {
                                         Procesando...
                                     </>
                                 ) : (
-                                    'Realizar Pedido'
+                                    <>
+                                        <span>Confirmar Pedido</span>
+                                        <svg className="w-6 h-6 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
+                                    </>
                                 )}
                             </button>
+                            <p className="text-gray-500 text-xs text-center mt-6">
+                                Al confirmar, aceptas nuestros términos y condiciones.
+                            </p>
                         </div>
                     </div>
                 </div>
