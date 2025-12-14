@@ -33,9 +33,9 @@ export class Order {
     @JoinColumn({ name: 'id_empleado' })
     employee: Employee;
 
-    @OneToMany(() => OrderProduct, orderProduct => orderProduct.order)
+    @OneToMany(() => OrderProduct, orderProduct => orderProduct.order, { cascade: true, onDelete: 'CASCADE' })
     orderProducts: OrderProduct[];
 
-    @OneToOne(() => Payment, payment => payment.order)
+    @OneToOne(() => Payment, payment => payment.order, { cascade: true, onDelete: 'CASCADE' })
     payment: Payment;
 }

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import client from '../api/client';
 import { useAuth } from '../context/AuthContext';
 
@@ -9,6 +9,7 @@ const LoginPage: React.FC = () => {
     const [error, setError] = useState('');
     const { login } = useAuth();
     const navigate = useNavigate();
+    const location = useLocation();
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -74,8 +75,10 @@ const LoginPage: React.FC = () => {
                 // También guardar en clienteActual para compatibilidad
                 localStorage.setItem('clienteActual', JSON.stringify(user));
 
-                // Redirigir al menú principal
-                navigate('/');
+                // Redirect to previous page or home
+                const state = location.state as { from?: { pathname: string } } | null;
+                const from = state?.from?.pathname || '/';
+                navigate(from, { replace: true });
             } catch (clientError: any) {
                 // Both employee and client login failed
                 console.error('Both login attempts failed:', { employeeError, clientError });

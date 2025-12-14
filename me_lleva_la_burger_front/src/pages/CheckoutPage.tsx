@@ -77,7 +77,7 @@ const CheckoutPage: React.FC = () => {
                 if (isMountedRef.current) {
                     navigate('/');
                 }
-            }, 100);
+            }, 3000);
         }
     };
 

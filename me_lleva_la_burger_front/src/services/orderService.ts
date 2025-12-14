@@ -32,6 +32,7 @@ export const orderService = {
     return response.data.data || response.data;
   },
   deleteOrder: async (orderId: number): Promise<void> => {
-    await api.delete(`/orders/${orderId}`);
+    // User requested "Cancel" to be a status update, not a delete
+    await api.patch(`/orders/${orderId}/status`, { estado: 'Cancelado' });
   },
 };

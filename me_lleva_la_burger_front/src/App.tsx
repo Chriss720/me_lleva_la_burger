@@ -14,6 +14,7 @@ import { EmpleadosAdmin } from './pages/admin/Empleados';
 import { AddToCart } from './pages/AddToCart';
 import CheckoutPage from './pages/CheckoutPage';
 import StaffOrdersPage from './pages/staff/StaffOrdersPage';
+import { OrdersPage } from './pages/OrdersPage';
 import './App.css';
 
 function AppContent() {
@@ -24,6 +25,7 @@ function AppContent() {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/profile" element={<ProfilePage />} />
+        <Route path="/mis-pedidos" element={<OrdersPage />} />
         <Route path="/carts/add/:productId" element={<AddToCart />} />
         <Route path="/ubicacion" element={<LocationPage />} />
         <Route path="/ubicacion" element={<LocationPage />} />
