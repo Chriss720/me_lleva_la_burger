@@ -1,0 +1,26 @@
+﻿
+> backend@0.0.1 lint
+> eslint "{src,apps,libs,test}/**/*.ts" --fix
+
+
+C:\Users\crist\Desktop\TEC\semestre 7\Topicos selectos IS\me_lleva_la_burger\me_lleva_la_burger_backend\src\auth\auth.service.spec.ts
+   9:7   error    'employeeRepo' is assigned a value but never used                                     @typescript-eslint/no-unused-vars
+  10:7   error    'jwtService' is assigned a value but never used                                       @typescript-eslint/no-unused-vars
+  30:7   warning  Unsafe argument of type `any` assigned to a parameter of type `Repository<Customer>`  @typescript-eslint/no-unsafe-argument
+  31:7   warning  Unsafe argument of type `any` assigned to a parameter of type `Repository<Employee>`  @typescript-eslint/no-unsafe-argument
+  32:7   warning  Unsafe argument of type `any` assigned to a parameter of type `JwtService`            @typescript-eslint/no-unsafe-argument
+  48:29  error    Promise returned in function argument where a void return was expected                @typescript-eslint/no-misused-promises
+
+C:\Users\crist\Desktop\TEC\semestre 7\Topicos selectos IS\me_lleva_la_burger\me_lleva_la_burger_backend\src\customer\customer.service.spec.ts
+  57:14  error  Avoid referencing unbound methods which may cause unintentional scoping of `this`.
+If your function does not access `this`, you can annotate it with `this: void`, or consider using an arrow function instead  @typescript-eslint/unbound-method
+  74:14  error  Avoid referencing unbound methods which may cause unintentional scoping of `this`.
+If your function does not access `this`, you can annotate it with `this: void`, or consider using an arrow function instead  @typescript-eslint/unbound-method
+  75:14  error  Avoid referencing unbound methods which may cause unintentional scoping of `this`.
+If your function does not access `this`, you can annotate it with `this: void`, or consider using an arrow function instead  @typescript-eslint/unbound-method
+
+C:\Users\crist\Desktop\TEC\semestre 7\Topicos selectos IS\me_lleva_la_burger\me_lleva_la_burger_backend\src\database\run-seed.ts
+  33:1  warning  Promises must be awaited, end with a call to .catch, end with a call to .then with a rejection handler or be explicitly marked as ignored with the `void` operator  @typescript-eslint/no-floating-promises
+
+Γ£û 10 problems (6 errors, 4 warnings)
+

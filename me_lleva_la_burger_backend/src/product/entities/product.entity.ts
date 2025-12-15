@@ -1,7 +1,7 @@
 /* eslint-disable prettier/prettier */
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany, CreateDateColumn } from 'typeorm';
-import { OrderProduct } from 'src/order/entities/order-product.entity';
-import { CartProduct } from 'src/cart/entities/cart-product.entity';
+import { OrderProduct } from '../../order/entities/order-product.entity';
+import { CartProduct } from '../../cart/entities/cart-product.entity';
 
 @Entity()
 export class Product {
