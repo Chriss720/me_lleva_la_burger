@@ -1,5 +1,6 @@
 /* eslint-disable prettier/prettier */
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException, Inject, Logger } from '@nestjs/common';
+import { WINSTON_MODULE_PROVIDER } from 'nest-winston';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateOrderDto } from './dto/create-order.dto';
@@ -23,6 +24,7 @@ export class OrderService {
     private readonly cartProductRepository: Repository<CartProduct>,
     @InjectRepository(Product)
     private readonly productRepository: Repository<Product>,
+    @Inject(WINSTON_MODULE_PROVIDER) private readonly logger: Logger,
   ) { }
 
   async create(createOrderDto: CreateOrderDto): Promise<Order> {
@@ -70,6 +72,8 @@ export class OrderService {
 
     savedOrder.total = Number(total.toFixed(2));
     await this.orderRepository.save(savedOrder);
+
+    this.logger.log(`Order created: ID ${savedOrder.id_pedido} - Total: ${savedOrder.total}`, 'OrderService');
 
 
     await this.cartProductRepository.delete({ id_carrito: cartId });

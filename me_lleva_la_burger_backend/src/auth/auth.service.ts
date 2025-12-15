@@ -1,5 +1,6 @@
 /* eslint-disable prettier/prettier */
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { Injectable, UnauthorizedException, Inject, Logger } from '@nestjs/common';
+import { WINSTON_MODULE_PROVIDER } from 'nest-winston';
 import { JwtService } from '@nestjs/jwt';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
@@ -18,6 +19,7 @@ export class AuthService {
         @InjectRepository(Employee)
         private employeeRepository: Repository<Employee>,
         private jwtService: JwtService,
+        @Inject(WINSTON_MODULE_PROVIDER) private readonly logger: Logger,
     ) { }
 
     async loginCustomer(loginDto: LoginCustomerDto): Promise<LoginResponse> {
@@ -43,6 +45,8 @@ export class AuthService {
             email: customer.correo_cliente,
             tipo: 'customer'
         };
+
+        this.logger.log(`Customer logged in: ${customer.correo_cliente}`, 'AuthService');
 
         return {
             access_token: this.jwtService.sign(payload),

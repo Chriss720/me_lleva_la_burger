@@ -1,5 +1,6 @@
 /* eslint-disable prettier/prettier */
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException, Inject, Logger } from '@nestjs/common';
+import { WINSTON_MODULE_PROVIDER } from 'nest-winston';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
@@ -12,43 +13,43 @@ export class CustomerService {
   constructor(
     @InjectRepository(Customer)
     private readonly customerRepository: Repository<Customer>,
+    @Inject(WINSTON_MODULE_PROVIDER) private readonly logger: Logger,
   ) { }
 
   async create(createCustomerDto: CreateCustomerDto): Promise<Customer> {
     const hashedPassword = await bcrypt.hash(createCustomerDto.contrasena_cliente, 10);
-    const customer = this.customerRepository.create({
-      ...createCustomerDto,
-      contrasena_cliente: hashedPassword,
-    } as Partial<Customer>);
-    return this.customerRepository.save(customer);
+  } as Partial<Customer>);
+const savedCustomer = await this.customerRepository.save(customer);
+this.logger.log(`Customer registered: ${savedCustomer.correo_cliente}`, 'CustomerService');
+return savedCustomer;
   }
 
-  async findAll(): Promise<Customer[]> {
-    return this.customerRepository.find();
-  }
+  async findAll(): Promise < Customer[] > {
+  return this.customerRepository.find();
+}
 
-  async findOne(id: number): Promise<Customer> {
-    const customer = await this.customerRepository.findOneBy({ id_cliente: id });
-    if (!customer) {
-      throw new NotFoundException(`Customer with ID ${id} not found`);
-    }
+  async findOne(id: number): Promise < Customer > {
+  const customer = await this.customerRepository.findOneBy({ id_cliente: id });
+  if(!customer) {
+    throw new NotFoundException(`Customer with ID ${id} not found`);
+  }
     return customer;
+}
+
+  async update(id: number, updateCustomerDto: UpdateCustomerDto): Promise < Customer > {
+  const customer = await this.findOne(id);
+
+  if(updateCustomerDto.contrasena_cliente) {
+  updateCustomerDto.contrasena_cliente = await bcrypt.hash(updateCustomerDto.contrasena_cliente, 10);
+}
+
+Object.assign(customer, updateCustomerDto);
+return this.customerRepository.save(customer);
   }
 
-  async update(id: number, updateCustomerDto: UpdateCustomerDto): Promise<Customer> {
-    const customer = await this.findOne(id);
-
-    if (updateCustomerDto.contrasena_cliente) {
-      updateCustomerDto.contrasena_cliente = await bcrypt.hash(updateCustomerDto.contrasena_cliente, 10);
-    }
-
-    Object.assign(customer, updateCustomerDto);
-    return this.customerRepository.save(customer);
-  }
-
-  async remove(id: number): Promise<{ message: string; customer?: Customer }> {
-    const customer = await this.findOne(id);
-    await this.customerRepository.remove(customer);
-    return { message: `Customer with ID ${id} removed`, customer };
-  }
+  async remove(id: number): Promise < { message: string; customer?: Customer } > {
+  const customer = await this.findOne(id);
+  await this.customerRepository.remove(customer);
+  return { message: `Customer with ID ${id} removed`, customer };
+}
 }
