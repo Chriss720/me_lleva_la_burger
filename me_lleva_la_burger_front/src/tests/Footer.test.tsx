@@ -14,6 +14,6 @@ describe('Footer Component', () => {
     it('renders contact information', () => {
         render(<Footer />);
 
-        expect(screen.getByText('hola@mellevalaburger.com')).toBeInTheDocument();
+        expect(screen.getByText('burger@gmail.com')).toBeInTheDocument();
     });
 });
