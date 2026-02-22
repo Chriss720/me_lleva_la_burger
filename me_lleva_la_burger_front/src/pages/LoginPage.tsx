@@ -101,6 +101,12 @@ const LoginPage: React.FC = () => {
                     </div>
                 )}
 
+                <div className="flex items-center my-4">
+                    <div className="flex-grow border-t border-gray-600"></div>
+                    <span className="mx-4 text-gray-500 text-sm">O continúa con</span>
+                    <div className="flex-grow border-t border-gray-600"></div>
+                </div>
+
                 <form onSubmit={handleSubmit} className="space-y-6">
                     <div>
                         <label className="block text-[#FFC72C] font-bold mb-2">Correo Electrónico</label>
@@ -124,6 +130,17 @@ const LoginPage: React.FC = () => {
                             placeholder="••••••••"
                             required
                         />
+                    </div>
+
+                    <div className="flex flex-col gap-3 mb-6">
+                        <a href="http://localhost:3000/auth/google" className="flex items-center justify-center gap-2 bg-white text-black font-bold py-3 rounded hover:bg-gray-100 transition transform active:scale-95 border border-gray-300">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/Google_%22G%22_logo.svg/120px-Google_%22G%22_logo.svg.png" alt="Google" className="w-5 h-5" />
+                            <span>Iniciar con Google</span>
+                        </a>
+                        <a href="http://localhost:3000/auth/github" className="flex items-center justify-center gap-2 bg-[#2b3137] text-white font-bold py-3 rounded hover:bg-[#24292e] transition transform active:scale-95 border border-gray-700">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/9/91/Octicons-mark-github.svg" alt="Github" className="w-5 h-5 invert" />
+                            <span>Iniciar con GitHub</span>
+                        </a>
                     </div>
 
                     <button

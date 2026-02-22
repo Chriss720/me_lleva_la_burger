@@ -6,7 +6,7 @@ import { authService } from '../services/authService';
 import Swal from 'sweetalert2';
 
 export const ProfilePage = () => {
-    const { user } = useAuth(); // Usamos login para actualizar el contexto si es necesario, o recargamos
+    const { user, updateUser } = useAuth(); // Usamos login para actualizar el contexto si es necesario, o recargamos
     const [formData, setFormData] = useState({
         nombre_cliente: '',
         apellido_cliente: '',
@@ -54,10 +54,12 @@ export const ProfilePage = () => {
                 return;
             }
 
-            await authService.updateProfile(userId, formData);
+            const updatedProfileData = await authService.updateProfile(userId, formData);
 
-            // Actualizar el estado global o forzar recarga
-            // Una forma rápida es recargar para que el Header coja el nuevo localStorage
+            // Actualizar el estado global en AuthContext para evitar recargar la página y mezclar keys de localStorage
+            const newUserData = { ...user, ...updatedProfileData };
+            updateUser(newUserData);
+
             Swal.fire({
                 title: '¡Actualizado!',
                 text: 'Tu perfil ha sido actualizado correctamente.',
@@ -65,8 +67,6 @@ export const ProfilePage = () => {
                 confirmButtonColor: '#FFC72C',
                 background: '#1a1a1a',
                 color: '#fff'
-            }).then(() => {
-                window.location.reload();
             });
 
         } catch (error) {

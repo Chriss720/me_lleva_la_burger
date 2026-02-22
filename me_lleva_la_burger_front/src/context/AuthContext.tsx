@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 
-interface User {
+export interface User {
   id: number;
   id_cliente?: number;
   email: string;
@@ -42,19 +42,20 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     setIsLoading(false);
   }, []);
 
-  const login = (newToken: string, newUser: User) => {
+  const login = React.useCallback((newToken: string, newUser: User) => {
     localStorage.setItem('token', newToken);
     localStorage.setItem('user', JSON.stringify(newUser));
+    localStorage.setItem('clienteActual', JSON.stringify(newUser)); // Also set for authService
     setToken(newToken);
     setUser(newUser);
-  };
+  }, []);
 
-  const updateUser = (updatedUser: User) => {
+  const updateUser = React.useCallback((updatedUser: User) => {
     localStorage.setItem('user', JSON.stringify(updatedUser));
     // Also update clienteActual for compatibility with authService
     localStorage.setItem('clienteActual', JSON.stringify(updatedUser));
     setUser(updatedUser);
-  };
+  }, []);
 
   const logout = () => {
     localStorage.removeItem('token');

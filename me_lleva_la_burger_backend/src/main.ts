@@ -6,6 +6,9 @@ import { ValidationPipe } from '@nestjs/common';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { WinstonModule } from 'nest-winston';
 import * as winston from 'winston';
+import helmet from 'helmet';
+import { AllExceptionsFilter } from './common/filters/all-exceptions.filter';
+import { TransformInterceptor } from './common/interceptors/transform.interceptor';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
@@ -21,6 +24,14 @@ async function bootstrap() {
     }),
   });
 
+  // DEBUG: Check if OAuth variables are loaded
+  console.log('------------------------------------------------');
+  console.log('DEBUG: GOOGLE_CLIENT_ID:', process.env.GOOGLE_CLIENT_ID ? process.env.GOOGLE_CLIENT_ID.substring(0, 5) + '...' : 'UNDEFINED');
+  console.log('DEBUG: GITHUB_CLIENT_ID:', process.env.GITHUB_CLIENT_ID ? process.env.GITHUB_CLIENT_ID.substring(0, 5) + '...' : 'UNDEFINED');
+  console.log('DEBUG: FRONTEND_URL:', process.env.FRONTEND_URL);
+  console.log('------------------------------------------------');
+
+  app.use(helmet());
   app.enableCors();
 
   app.useGlobalPipes(new ValidationPipe({
@@ -28,6 +39,9 @@ async function bootstrap() {
     forbidNonWhitelisted: true,
     transform: true,
   }));
+
+  app.useGlobalFilters(new AllExceptionsFilter());
+  app.useGlobalInterceptors(new TransformInterceptor());
 
   const config = new DocumentBuilder()
     .setTitle('Documentación de la API de BurguerExpress')

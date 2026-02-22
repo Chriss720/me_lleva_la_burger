@@ -17,8 +17,14 @@ export class Customer {
     @Column()
     correo_cliente: string;
 
-    @Column()
+    @Column({ nullable: true })
     contrasena_cliente: string;
+
+    @Column({ nullable: true, default: 'local' })
+    provider: string;
+
+    @Column({ nullable: true })
+    provider_id: string;
 
     @Column()
     telefono_cliente: string;

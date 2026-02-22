@@ -1,7 +1,8 @@
 import axios from 'axios';
 import type { AxiosInstance } from 'axios';
+import { API_URL } from '../api';
 
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://34.28.222.6:3000';
+const API_BASE_URL = import.meta.env.VITE_API_URL || API_URL;
 
 const api: AxiosInstance = axios.create({
   baseURL: API_BASE_URL,
