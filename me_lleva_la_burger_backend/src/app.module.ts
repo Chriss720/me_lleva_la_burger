@@ -13,6 +13,8 @@ import { ConfigModule } from '@nestjs/config';
 import { WinstonModule } from 'nest-winston';
 import * as winston from 'winston';
 import { LoggerMiddleware } from './common/middleware/logger.middleware';
+import { APP_GUARD } from '@nestjs/core';
+import { RateLimiterGuard } from './common/guards/rate-limiter.guard';
 
 @Module({
   imports: [
@@ -63,7 +65,12 @@ import { LoggerMiddleware } from './common/middleware/logger.middleware';
     AuthModule,
   ],
   controllers: [],
-  providers: [],
+  providers: [
+    {
+      provide: APP_GUARD,
+      useClass: RateLimiterGuard,
+    },
+  ],
 })
 export class AppModule {
   configure(consumer: MiddlewareConsumer) {
