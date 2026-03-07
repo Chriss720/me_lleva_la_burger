@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { useAuth, useCart } from '../../hooks';
 
 export const Header = () => {
@@ -6,6 +7,7 @@ export const Header = () => {
   const [showUserMenu, setShowUserMenu] = useState(false);
   const [showCartMenu, setShowCartMenu] = useState(false);
   const { getItemCount, items, getTotal, loadMyCart } = useCart();
+  const navigate = useNavigate();
 
   const headerRef = useRef<HTMLElement>(null);
 
@@ -33,6 +35,7 @@ export const Header = () => {
   const handleLogout = () => {
     logout();
     setShowUserMenu(false);
+    navigate('/');
   };
 
   console.log('User object in Header:', user); // For debugging
@@ -52,22 +55,22 @@ export const Header = () => {
 
   return (
     <header ref={headerRef} className="glass-card px-8 py-4 flex justify-between items-center sticky top-0 z-50 border-b border-white/10 backdrop-blur-xl bg-black/50">
-      <a href="/" className="text-3xl md:text-4xl font-extrabold text-[#FFC72C] no-underline flex items-center gap-3 font-oswald tracking-wide hover:scale-105 transition-transform">
+      <Link to="/" className="text-3xl md:text-4xl font-extrabold text-[#FFC72C] no-underline flex items-center gap-3 font-oswald tracking-wide hover:scale-105 transition-transform">
         <img src="/static/images/logo.png" alt="Logo" className="h-12 w-auto filter drop-shadow-[0_0_8px_rgba(255,199,44,0.5)]" />
         <span className="hidden md:block text-transparent bg-clip-text bg-gradient-to-r from-[#FFC72C] to-[#e0b000]">ME LLEVA LA BURGER</span>
-      </a>
+      </Link>
 
       <nav className="hidden md:block">
         <ul className="flex gap-8 list-none">
           {['Menú', 'Contacto', 'Ubicación'].map((item) => (
             <li key={item}>
-              <a
-                href={item === 'Menú' ? '/' : `/${item.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "")}`} // Simple normalization
+              <Link
+                to={item === 'Menú' ? '/' : `/${item.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "")}`} // Simple normalization
                 className="text-white text-lg font-bold font-oswald no-underline pb-1 hover:text-[#FFC72C] transition-colors relative group"
               >
                 {item}
                 <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-[#FFC72C] transition-all duration-300 group-hover:w-full"></span>
-              </a>
+              </Link>
             </li>
           ))}
         </ul>
@@ -132,14 +135,14 @@ export const Header = () => {
           </div>
 
           <div className="flex flex-col gap-2">
-            <a href="/profile" className="text-left w-full p-3 rounded-xl hover:bg-white/5 text-gray-300 hover:text-white transition-colors flex items-center gap-3 no-underline">
+            <Link to="/profile" className="text-left w-full p-3 rounded-xl hover:bg-white/5 text-gray-300 hover:text-white transition-colors flex items-center gap-3 no-underline">
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /></svg>
               Mi Perfil
-            </a>
-            <a href="/mis-pedidos" className="text-left w-full p-3 rounded-xl hover:bg-white/5 text-gray-300 hover:text-white transition-colors flex items-center gap-3 no-underline">
+            </Link>
+            <Link to="/mis-pedidos" className="text-left w-full p-3 rounded-xl hover:bg-white/5 text-gray-300 hover:text-white transition-colors flex items-center gap-3 no-underline">
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" /></svg>
               Mis Pedidos
-            </a>
+            </Link>
           </div>
 
           <button
@@ -155,12 +158,12 @@ export const Header = () => {
       {/* Login Link */}
       {!isAuthenticated && showUserMenu && (
         <div className="glass-card rounded-2xl p-4 shadow-2xl w-64 absolute top-24 right-4 z-50 flex flex-col gap-2 animate-fade-in border border-white/10 bg-black/80">
-          <a href="/login" className="text-white text-center font-bold font-oswald hover:bg-[#FFC72C] hover:text-black py-3 rounded-xl transition-all">
+          <Link to="/login" className="block text-white text-center font-bold font-oswald hover:bg-[#FFC72C] hover:text-black py-3 rounded-xl transition-all">
             INICIAR SESIÓN
-          </a>
-          <a href="/register" className="text-gray-300 text-center text-sm hover:text-white py-2 transition-colors">
+          </Link>
+          <Link to="/register" className="block text-gray-300 text-center text-sm hover:text-white py-2 transition-colors">
             ¿No tienes cuenta? <span className="text-[#FFC72C] underline">Regístrate</span>
-          </a>
+          </Link>
         </div>
       )}
 
@@ -203,13 +206,13 @@ export const Header = () => {
               <span className="text-gray-400 font-light">Total a pagar</span>
               <span className="text-[#FFC72C] font-bold text-3xl font-oswald">${getTotal().toFixed(2)}</span>
             </div>
-            <button
-              onClick={() => window.location.href = '/checkout'}
-              className="glow-button w-full bg-[#DA291C] text-white py-4 rounded-xl font-bold hover:bg-[#ff1f1f] text-lg transition-all shadow-lg uppercase tracking-wider flex justify-center items-center gap-2"
+            <Link
+              to="/checkout"
+              className="glow-button w-full bg-[#DA291C] text-white py-4 rounded-xl font-bold hover:bg-[#ff1f1f] text-lg transition-all shadow-lg uppercase tracking-wider flex justify-center items-center gap-2 no-underline"
             >
               <span>Procesar Pago</span>
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
-            </button>
+            </Link>
           </div>
         </div>
       )}

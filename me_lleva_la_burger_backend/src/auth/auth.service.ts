@@ -27,7 +27,7 @@ export class AuthService {
             where: { correo_cliente: loginDto.correo_cliente }
         });
 
-        if (!customer) {
+        if (!customer || !customer.contrasena_cliente) {
             throw new UnauthorizedException('Credenciales inválidas');
         }
 
@@ -93,6 +93,60 @@ export class AuthService {
                 email: employee.correo_empleado,
                 cargo: employee.cargo,
                 tipo: 'employee'
+            }
+        };
+    }
+    async validateOAuthUser(profile: any): Promise<Customer> {
+        const { providerId, provider, email, firstName, lastName } = profile;
+
+        // Try to find user by providerId or email
+        let user = await this.customerRepository.findOne({
+            where: [
+                { provider_id: providerId, provider: provider },
+                { correo_cliente: email }
+            ]
+        });
+
+        if (!user) {
+            // Create new user if not exists
+            user = this.customerRepository.create({
+                correo_cliente: email,
+                nombre_cliente: firstName || 'Usuario',
+                apellido_cliente: lastName || '',
+                provider: provider,
+                provider_id: providerId,
+                contrasena_cliente: undefined,
+                telefono_cliente: '',
+                direccion: '',
+                estado_cliente: 'ACTIVO',
+                fecha_registro: new Date()
+            });
+            await this.customerRepository.save(user);
+        } else if (!user.provider_id) {
+            // Link account if user exists by email but not linked to provider
+            user.provider = provider;
+            user.provider_id = providerId;
+            await this.customerRepository.save(user);
+        }
+
+        return user;
+    }
+
+    async loginOAuth(user: Customer) {
+        const payload: JwtPayload = {
+            sub: user.id_cliente,
+            email: user.correo_cliente,
+            tipo: 'customer'
+        };
+
+        return {
+            access_token: this.jwtService.sign(payload),
+            user: {
+                id: user.id_cliente,
+                nombre: user.nombre_cliente,
+                apellido: user.apellido_cliente,
+                email: user.correo_cliente,
+                tipo: 'customer'
             }
         };
     }
