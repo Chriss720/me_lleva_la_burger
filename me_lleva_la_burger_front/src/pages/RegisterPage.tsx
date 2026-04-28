@@ -35,7 +35,8 @@ const RegisterPage: React.FC = () => {
                 contrasena_cliente: password,
             });
 
-            const { access_token, user } = loginResponse.data;
+            const responseData = loginResponse.data?.data || loginResponse.data;
+            const { access_token, user } = responseData;
 
             // Guardar token y usuario
             if (access_token) {

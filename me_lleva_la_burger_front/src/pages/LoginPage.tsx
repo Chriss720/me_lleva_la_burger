@@ -15,14 +15,17 @@ const LoginPage: React.FC = () => {
         e.preventDefault();
         setError('');
 
+        const trimmedEmail = email.trim();
+
         // Try employee login first
         try {
             const employeeResponse = await client.post('/auth/login/employee', {
-                correo_empleado: email,
+                correo_empleado: trimmedEmail,
                 contrasena_empleado: password,
             });
 
-            const { access_token, user } = employeeResponse.data;
+            const responseData = employeeResponse.data?.data || employeeResponse.data;
+            const { access_token, user } = responseData;
 
             // Mapeamos el usuario para el contexto
             const userData = {
@@ -50,22 +53,23 @@ const LoginPage: React.FC = () => {
 
             try {
                 const clientResponse = await client.post('/auth/login/customer', {
-                    correo_cliente: email,
+                    correo_cliente: trimmedEmail,
                     contrasena_cliente: password,
                 });
 
-                const { access_token, user } = clientResponse.data;
+                const responseData = clientResponse.data?.data || clientResponse.data;
+                const { access_token, user } = responseData;
 
                 // Mapear el usuario cliente para el contexto
                 const clientData = {
                     id: user.id,
-                    email: user.email || user.correo_cliente || email, // Backend returns 'email'
+                    email: user.email || user.correo_cliente || trimmedEmail, // Backend returns 'email'
                     role: 'cliente',
                     nombre: user.nombre, // Backend returns 'nombre'
                     apellido: user.apellido, // Backend returns 'apellido'
                     nombre_cliente: user.nombre, // Alias for compatibility
                     apellido_cliente: user.apellido, // Alias for compatibility
-                    correo_cliente: user.email || user.correo_cliente,
+                    correo_cliente: user.email || user.correo_cliente || trimmedEmail,
                 };
 
                 // IMPORTANTE: Usar login() del contexto para que se actualice el estado

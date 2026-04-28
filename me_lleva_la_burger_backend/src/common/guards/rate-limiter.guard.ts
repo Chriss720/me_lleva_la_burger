@@ -10,7 +10,7 @@ interface RequestMeta {
 export class RateLimiterGuard implements CanActivate {
     private readonly reqs = new Map<string, RequestMeta>();
     private readonly WINDOW_MS = 60000;
-    private readonly MAX_REQUESTS = 10;
+    private readonly MAX_REQUESTS = 100;
 
     constructor() {
         setInterval(() => this.cleanUp(), this.WINDOW_MS);
