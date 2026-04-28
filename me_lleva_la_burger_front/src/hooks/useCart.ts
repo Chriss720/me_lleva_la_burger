@@ -51,7 +51,7 @@ export const useCart = () => {
         await paymentService.createPayment({
           id_pedido: order.id_pedido,
           metodo: paymentMethod,
-          monto: order.total,
+          monto: Number(order.total),
           estado: 'Completado'
         });
       }

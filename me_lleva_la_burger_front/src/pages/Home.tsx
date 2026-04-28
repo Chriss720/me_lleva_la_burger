@@ -170,6 +170,8 @@ export const Home = () => {
                     <button
                       onClick={async () => {
                         try {
+                          await checkout('Tarjeta');
+                          
                           const Swal = (await import('sweetalert2')).default;
                           Swal.fire({
                             title: '¡Gracias por su compra, vuelva pronto!',
@@ -184,16 +186,17 @@ export const Home = () => {
                             confirmButtonText: 'Cerrar',
                             showConfirmButton: false
                           });
-                          // Procesar checkout después de mostrar el mensaje
-                          setTimeout(async () => {
-                            try {
-                              await checkout('Tarjeta');
-                            } catch (err) {
-                              console.error('Error al procesar pago:', err);
-                            }
-                          }, 10000);
                         } catch (err) {
                           console.error('Error:', err);
+                          const Swal = (await import('sweetalert2')).default;
+                          Swal.fire({
+                            title: 'Error',
+                            text: 'Hubo un problema procesando el pago.',
+                            icon: 'error',
+                            background: '#000',
+                            color: '#fff',
+                            confirmButtonColor: '#FFC72C',
+                          });
                         }
                       }}
                       className="w-full bg-[#DA291C] text-white py-4 rounded-xl font-bold text-lg hover:bg-[#a81f13] transition-all shadow-lg hover:shadow-red-900/20"
