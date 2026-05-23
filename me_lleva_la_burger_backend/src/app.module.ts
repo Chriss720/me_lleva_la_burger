@@ -9,6 +9,7 @@ import { EmployeeModule } from './employee/employee.module';
 import { OrderModule } from './order/order.module';
 import { PaymentModule } from './payment/payment.module';
 import { ProductModule } from './product/product.module';
+import { IngredientModule } from './ingredient/ingredient.module';
 import { ConfigModule } from '@nestjs/config';
 import { WinstonModule } from 'nest-winston';
 import * as winston from 'winston';
@@ -63,6 +64,7 @@ import { RateLimiterGuard } from './common/guards/rate-limiter.guard';
     PaymentModule,
     CartModule,
     AuthModule,
+    IngredientModule,
   ],
   controllers: [],
   providers: [

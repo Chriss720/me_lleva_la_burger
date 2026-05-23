@@ -41,7 +41,9 @@ export const PedidosAdmin = () => {
     queryKey: ['admin-orders'],
     queryFn: async () => {
       const res = await client.get('/orders');
-      return res.data.sort((a: Order, b: Order) => b.id_pedido - a.id_pedido);
+      const data = res.data?.data || res.data;
+      if (!Array.isArray(data)) return [];
+      return data.sort((a: Order, b: Order) => b.id_pedido - a.id_pedido);
     }
   });
 

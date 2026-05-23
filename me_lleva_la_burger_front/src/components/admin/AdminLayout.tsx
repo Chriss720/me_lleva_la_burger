@@ -28,7 +28,7 @@ export const AdminLayout = ({ children }: Props) => {
             <p className="font-bold">{user?.nombre || 'Usuario'}</p>
             <p className="text-gray-400">{user?.email}</p>
           </div>
-          <button onClick={() => { logout(); window.location.href = '/login'; }} className="w-full bg-[#DA291C] text-white py-2 rounded-lg font-bold hover:bg-[#a81f13]">Cerrar sesión</button>
+          <button onClick={() => { logout(); window.location.href = '/'; }} className="w-full bg-[#DA291C] text-white py-2 rounded-lg font-bold hover:bg-[#a81f13]">Cerrar sesión</button>
         </div>
       </aside>
 

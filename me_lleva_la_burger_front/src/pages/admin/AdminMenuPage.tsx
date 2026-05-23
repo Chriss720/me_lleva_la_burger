@@ -213,13 +213,54 @@ const AdminMenuPage: React.FC = () => {
                                 </div>
                                 <div>
                                     <label className="block text-gray-300 mb-1">URL de Imagen</label>
-                                    <input
-                                        type="text"
-                                        value={formData.foto}
-                                        onChange={(e) => setFormData({ ...formData, foto: e.target.value })}
-                                        className="w-full bg-[#111] border border-[#333] rounded p-2 text-white focus:border-[#FFC72C] outline-none"
-                                        placeholder="https://ejemplo.com/imagen.jpg"
-                                    />
+                                    <div className="flex flex-col gap-3">
+                                        <div className="flex gap-2">
+                                            <input
+                                                type="text"
+                                                value={formData.foto}
+                                                onChange={(e) => setFormData({ ...formData, foto: e.target.value })}
+                                                className="flex-1 bg-[#111] border border-[#333] rounded p-2 text-white focus:border-[#FFC72C] outline-none"
+                                                placeholder="https://ejemplo.com/imagen.jpg o usa Cloudinary"
+                                            />
+                                            <button
+                                                type="button"
+                                                onClick={() => {
+                                                    const win = window as any;
+                                                    if (win.cloudinary) {
+                                                        const widget = win.cloudinary.createUploadWidget({
+                                                            cloudName: 'dfqymzb25',
+                                                            uploadPreset: 'ml_default',
+                                                            folder: 'products',
+                                                            sources: ['local', 'url', 'camera', 'image_search'],
+                                                            multiple: false,
+                                                            clientAllowedFormats: ['images'],
+                                                            maxImageFileSize: 5000000,
+                                                            theme: 'minimal'
+                                                        }, (error: any, result: any) => {
+                                                            if (!error && result && result.event === "success") {
+                                                                setFormData(prev => ({ ...prev, foto: result.info.secure_url }));
+                                                            }
+                                                        });
+                                                        widget.open();
+                                                    } else {
+                                                        Swal.fire('Error', 'El widget de Cloudinary aún no está cargado.', 'error');
+                                                    }
+                                                }}
+                                                className="bg-[#2a2a2a] text-[#FFC72C] px-4 py-2 rounded font-bold border border-[#FFC72C] hover:bg-[#FFC72C] hover:text-black transition flex items-center gap-2"
+                                                title="Subir o seleccionar imagen desde Cloudinary"
+                                            >
+                                                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
+                                                </svg>
+                                                Cloudinary
+                                            </button>
+                                        </div>
+                                        {formData.foto && (
+                                            <div className="h-32 w-32 border border-[#333] rounded overflow-hidden mt-2 bg-[#222]">
+                                                <img src={formData.foto} alt="Vista previa" className="w-full h-full object-cover" />
+                                            </div>
+                                        )}
+                                    </div>
                                 </div>
                                 <div className="pt-4 flex justify-end gap-4">
                                     <button

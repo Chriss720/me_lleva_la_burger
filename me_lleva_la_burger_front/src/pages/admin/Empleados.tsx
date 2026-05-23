@@ -32,7 +32,7 @@ export const EmpleadosAdmin = () => {
     queryKey: ['employees'],
     queryFn: async () => {
       const res = await client.get('/employee');
-      return res.data;
+      return res.data?.data || res.data;
     }
   });
 

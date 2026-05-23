@@ -41,7 +41,7 @@ const LoginPage: React.FC = () => {
             const role = (userData.role || '').toLowerCase();
             if (['gerente', 'encargado'].includes(role)) {
                 navigate('/admin/dashboard');
-            } else if (['empleado', 'cajero'].includes(role)) {
+            } else if (['empleado', 'cajero', 'cocinero'].includes(role)) {
                 navigate('/staff/pedidos');
             } else {
                 navigate('/'); // Fallback

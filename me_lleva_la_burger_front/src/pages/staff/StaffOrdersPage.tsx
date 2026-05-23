@@ -24,8 +24,9 @@ const StaffOrdersPage: React.FC = () => {
         queryKey: ['orders'],
         queryFn: async () => {
             const res = await client.get('/orders');
-            // Ordenar por ID descendente (más recientes primero)
-            return res.data.sort((a: Order, b: Order) => b.id_pedido - a.id_pedido);
+            const data = res.data?.data || res.data;
+            if (!Array.isArray(data)) return [];
+            return data.sort((a: Order, b: Order) => b.id_pedido - a.id_pedido);
         },
         refetchInterval: 5000, // Polling más rápido (5s) para "En vivo"
     });
@@ -72,7 +73,7 @@ const StaffOrdersPage: React.FC = () => {
                 </div>
                 <div className="flex items-center gap-4">
                     <span className="text-gray-300 hidden sm:inline">Hola, {user?.nombre}</span>
-                    <button onClick={logout} className="text-sm text-red-400 hover:text-red-300 border border-red-900 px-3 py-1 rounded hover:bg-red-900/20 transition">
+                    <button onClick={() => { logout(); window.location.href = '/'; }} className="text-sm text-red-400 hover:text-red-300 border border-red-900 px-3 py-1 rounded hover:bg-red-900/20 transition">
                         Salir
                     </button>
                 </div>

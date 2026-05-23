@@ -10,7 +10,7 @@ import { ProfilePage } from './pages/ProfilePage';
 import { Dashboard } from './pages/admin/Dashboard';
 import MenuAdmin from './pages/admin/AdminMenuPage';
 import { PedidosAdmin } from './pages/admin/Pedidos';
-import { IngredientesAdmin } from './pages/admin/Ingredientes';
+import AdminIngredientsPage from './pages/admin/AdminIngredientsPage';
 import { EmpleadosAdmin } from './pages/admin/Empleados';
 import { AddToCart } from './pages/AddToCart';
 import CheckoutPage from './pages/CheckoutPage';
@@ -41,7 +41,7 @@ function AppContent() {
         <Route path="/admin/dashboard" element={<Dashboard />} />
         <Route path="/admin/menu" element={<MenuAdmin />} />
         <Route path="/admin/pedidos" element={<PedidosAdmin />} />
-        <Route path="/admin/ingredientes" element={<IngredientesAdmin />} />
+        <Route path="/admin/ingredientes" element={<AdminIngredientsPage />} />
         <Route path="/admin/empleados" element={<EmpleadosAdmin />} />
 
         <Route path="*" element={<Navigate to="/" />} />
